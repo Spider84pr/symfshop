@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %} 
+{% block body %}
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+{% block flash_messages %}
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                {{ message | raw }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+            <div class="panel panel-success">
+			<h1>МегаСтолярка</h1>
+            </div>
+			<table>
+				<tbody>
+					<tr>
+						<th>Наименование</th>
+						<th>На складе</th>
+						<th>Цена</th>
+					</tr>
+					{% for key, item in prod %}
+					<tr>
+						<td>{{ item.name }}</td>
+						<td>{{ item.amount }}</td>
+						<td>{{ item.price }}</td>
+					{% if app.user != null %}
+						<td><a href="/buyproduct/{{ item.id }}">Купить</a></td>
+					{% endif %}
+					</tr>
+					 {% endfor %}
+				</tbody>
+			</table>
+			<div>
+			{{ form_start(filter) }}
+			{{ form_widget(filter) }}
+			{{ form_end(filter) }}
+			<button onclick="document.location='/'">Сбросить</button>
+			</div>
+            {% if app.user == null %}
+              <a href="/login" class="btn btn-info"> Войти  >></a>
+              <a href="/register" class="btn btn-info"> Регистрация  >></a>
+            {% endif %}
+            {% if app.user.role=='ROLE_ADMIN' %}
+            <h2>Панель администратора</h2>
+           <div class="stor">
+			<h3>Запасы материалов на складах</h3>
+			<table>
+				<tbody>
+					<tr>
+						<th>Наименование</th>
+						<th>На складе</th>
+						<th></th>
+					</tr>
+					{% for key, item in starr %}
+					<tr>
+						<td>{{ item.name }}</td>
+						<td>{{ item.amount }}</td>
+						<td></td>
+					</tr>
+					 {% endfor %}
+				</tbody>
+			</table>
+			<p><a href="/storageadd">Приход материала</a></p>
+			<p><a href="/storagedecr">Списание материала</a></p>
+			</div>
+			{% endif %}
+            
+            {% if app.user != null %}
+              <p>В вашей <a href="/cart">корзине</a> {{ cartamount }} товаров на сумму {{ cartsum }} рублей</p>
+              <a href="/logout" class="btn btn-info"> Выйти из системы  >></a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %} 
+{% block body %}
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+{% block flash_messages %}
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                {{ message | raw }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+            <div class="panel panel-success">
+			<h1>МегаСтолярка</h1>
+			<h2>Корзина</h2>
+			<a  href="/">На главную</a>
+            </div>
+			<table>
+				<tbody>
+					<tr>
+						<th>Наименование</th>
+						<th>Цена</th>
+					</tr>
+					{% for key, item in prod %}
+					<tr>
+						<td>{{ item.name }}</td>
+						<td>{{ item.price }}</td>
+						<td>{{ form_start(item.form) }}
+							{{ form_widget(item.form) }}
+							{{ form_end(item.form) }}</td>
+						<td><a href="/removefromcart/{{ item.id }}" class="btn btn-info">Удалить из корзины</a></td>
+					</tr>
+					 {% endfor %}
+				</tbody>
+			</table>
+            {% if app.user == null %}
+              <a href="/login" class="btn btn-info"> Войти  >></a>
+            {% endif %}
+            {% if app.user != null %}
+            {{ app.user.username }}
+              <p>В вашей корзине {{ cartamount }} товаров на сумму {{ cartsum }} рублей</p>
+              <a href="/cleancart" class="btn btn-info">Очистить корзину</a>
+              <a href="/logout" class="btn btn-info">Выйти из системы  >></a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

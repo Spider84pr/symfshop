@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: ivcheng7_sf
+    database_user: ivcheng7_sf
+    database_password: prio84
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: d0b112ba5f5e5e9395e3504efedc2fa76614fb93
